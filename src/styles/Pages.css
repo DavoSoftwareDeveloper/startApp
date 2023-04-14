@@ -1,0 +1,91 @@
+.pages {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin-bottom: 5px;
+    overflow: hidden;
+  
+  }
+  .container-slide {
+    height: 100%;
+    border: 1px solid black;
+    background-image: url("../assets/download.jpg");
+    background-size: cover;
+    overflow-y: scroll;
+  }
+  
+  .botonera{
+    width: 100vw;
+    position:absolute;
+    display: flex;
+    justify-content: center;
+    gap:5px;
+    padding: 5px;
+  }
+  
+  .circle-one{
+    width: 8px;
+    height: 8px;
+    color: white;
+    border: 2px solid rgb(1, 1, 1);
+    border-radius: 50%;
+    cursor:pointer;
+    background-color: white;
+  }
+  .circle-one:hover{
+    scale:1.1;
+  }
+  .circle-one:active{
+    background-color: white;
+    border:1px solid black;
+  }
+  .plus{
+    width: 10px;
+    height: 10px;
+    color: rgb(1, 1, 1);
+    cursor:pointer;
+    scale: 1.3;
+    padding-bottom: 20px;
+  }
+  .plus:hover{
+    scale:1.4;
+  }
+
+  .menu{
+    position:absolute;
+    bottom:10px;
+    width:100vw;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5000;
+    transition: bottom 0.5s;
+  }
+
+  .menu2{
+    position:absolute;
+    bottom:70px;
+    width:100vw;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5000;
+    transition: bottom 0.5s;
+  }
+
+  .menu-icon{
+    width: 60px;
+    height: 20px;
+    position:relative;
+    cursor:pointer;
+    bottom: -3px;
+    z-index: 5001;
+  }
+
+  .menu-icon:hover{
+    scale: 1.1;
+  }
+  .menu-icon:active{
+    background-color: white;
+    border:1px solid black;
+  }

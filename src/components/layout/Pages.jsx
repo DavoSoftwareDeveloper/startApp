@@ -5,8 +5,11 @@ import {IoMdAdd} from 'react-icons/io'
 import {ImMenu} from 'react-icons/im'
 import { useRef, useState } from 'react'
 import { openMenu } from '../../utils/functions'
+import { useSelector } from 'react-redux'
 
 function Pages() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const viewData = useSelector(state => state.state.collection[0].views)
 
   //useHook ?
   const [toggleMenu, setToggleMenu] = useState(false)
@@ -17,12 +20,24 @@ function Pages() {
     toggleMenu ? ref.current.className = "menu2" : ref.current.className = "menu"
   }
 
+
+const changeSlide = (e) =>{
+  e.preventDefault()
+  setCurrentSlide(e.currentTarget.dataset.page)
+}
+
+const handleAddView = () => {
+  console.log("addView")
+}
+
   return (
     <div className="pages">
-      <div className="container-slide">
-        <div className="absolute-slide-flex">
-        <PageView title="Título de prueba"/>
-        </div>
+      <div className="container-pages">
+      <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide"> 
+        {viewData.map((item,index) => (
+          <PageView key={index} {...item} image={item.backgroundUrl} title={item.title}/>
+        ))}
+      </div>
       </div>
       <div  ref={ref} className='menu'>
           <div className='menu-icon'>
@@ -30,11 +45,12 @@ function Pages() {
           </div>
           <div className="botonera">
               <div className='array-botonera'>
-                {/* {} // un círculo por cada map */}
-                <div className="circle-one"></div>
+                {viewData.map((item,index) => (
+                  <div key={`circle-${index}`} data-page={index} onClick={changeSlide} className="circle-one"></div>         
+                ))}
               </div>
               <div className="plus">
-                <IoMdAdd />
+                <IoMdAdd onClick={handleAddView}/>
               </div>
           </div>
           <Sets />

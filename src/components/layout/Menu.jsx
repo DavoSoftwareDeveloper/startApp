@@ -1,9 +1,10 @@
 import "../../styles/Menu.css"
+import {AiOutlineThunderbolt} from "react-icons/ai"
 
 function Menu() {
   return (
     <div className="menu-container">
-      Menú
+      <AiOutlineThunderbolt className="menu-icon"/>
     </div>
   )
 }

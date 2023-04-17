@@ -1,5 +1,4 @@
 import "../../styles/Sets.css"
-import Set from "../Set"
 import {HiUserCircle} from "react-icons/hi"
 
 function Sets() {

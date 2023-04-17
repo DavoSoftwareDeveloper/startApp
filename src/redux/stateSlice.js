@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice,current, createAsyncThunk } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid';
 //importar los objetos básicos
 import { set, viewPage, block } from '../utils/functions';
@@ -21,16 +21,30 @@ export const stateSlice = createSlice({
         state.collection.filter(item => item._id === action.payload._id)
     },
     addViewPage: (state,action) => {
-        state.collection.views.push(viewPage)
+        state.collection[0].views.push(action.payload)
     },
     deleteViewPage: (state, action) => {
-        state.collection.views.filter(item => item._id === action.payload._id)
+        state.collection.views.filter(item => item.id === action.payload.id)
     },
-    addBlock: (state) => {
-        state.collection.views.blocks.push(block)
+    addTitlePage: (state,action) => {
+        console.log(action.payload)
+        const position = action.payload.position
+        state.collection[0].views[position].title = action.payload
+    },
+    deleteTitlePage: (state, action) => {
+        const position = action.payload.position
+        state.collection[0].views[position].title.title = ""
+    },
+    addBlock: (state,action) => {
+        state.collection[0].views[action.payload.position].blocks.push(action.payload)
     },
     deleteBlock: (state, action) => {
-        state.collection.views.blocks.filter(item => item._id === action.payload._id)
+        const viewId = action.payload.viewId
+        const id = action.payload.id
+        const position = action.payload.positionPage
+        console.log(id)
+        state.collection[0].views[position].blocks = state.collection[0].views[position].blocks.filter(item => item.id !== id)
+  
     },
     updateBlock: (state,action) => {
         const item = state.collection.views.filter(item => item._id === action.payload._id)
@@ -44,6 +58,8 @@ export const {
                 addSet, 
                 deleteSet, 
                 addViewPage, 
+                addTitlePage,
+                deleteTitlePage,
                 deleteViewPage, 
                 addBlock, 
                 deleteBlock, 

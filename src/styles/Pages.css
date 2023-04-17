@@ -4,16 +4,16 @@
     height: 100vh;
     margin-bottom: 5px;
     overflow: hidden;
+    background-color: black;
   }
   .containder-pages{
     width: 100vw;
-    overflow-x: hidden;
   }
 
   .container-slide {
     display: flex;
-    width:200vw;
-    height: 100%;
+    width:300vw;
+    height: auto;
   }
 
   

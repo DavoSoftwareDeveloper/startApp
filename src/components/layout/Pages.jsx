@@ -5,12 +5,16 @@ import {IoMdAdd} from 'react-icons/io'
 import {ImMenu} from 'react-icons/im'
 import { useRef, useState } from 'react'
 import { openMenu } from '../../utils/functions'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addViewPage } from '../../redux/stateSlice'
+import { v4 as uuidv4 } from 'uuid';
+import { block } from '../../utils/functions'
 
 function Pages() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const viewData = useSelector(state => state.state.collection[0].views)
 
+  const dispatch = useDispatch()
   //useHook ?
   const [toggleMenu, setToggleMenu] = useState(false)
   const ref = useRef()
@@ -28,14 +32,22 @@ const changeSlide = (e) =>{
 
 const handleAddView = () => {
   console.log("addView")
+   dispatch(addViewPage({
+    id: uuidv4(),
+    title: "Título de prueba2",
+    backgroundUrl: "https://img.freepik.com/foto-gratis/piedras-zen-apiladas-fondo-arena-arte-concepto-equilibrio_53876-110629.jpg?w=2000&t=st=1681492270~exp=1681492870~hmac=e8d33f5a3bf9956b1f31feee587cea5d9ffe9c65b36fd48f3a9b3eab69d8bf4b",
+    blocks: [
+        block,
+    
+    ]
+}))
 }
-
   return (
     <div className="pages">
       <div className="container-pages">
       <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide"> 
         {viewData.map((item,index) => (
-          <PageView key={index} {...item} image={item.backgroundUrl} title={item.title}/>
+          <PageView key={index} {...item} position={index} id={uuidv4()} image={item.backgroundUrl} title={item.title}/>
         ))}
       </div>
       </div>

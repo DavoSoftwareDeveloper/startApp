@@ -1,12 +1,12 @@
 
-function List({children, handleDrop}) {
+function List({children, handleDrop, positionPage, positionList}) {
 
-    const handleDragOver = () => {
+    const handleDragOver = (e) => {
         e.preventDefault()
     }
 
   return (
-    <div onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div data-list={positionList} onDragOver={handleDragOver} onDrop={handleDrop}>
       {children}
     </div>
   )

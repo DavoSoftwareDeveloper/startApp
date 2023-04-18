@@ -6,12 +6,12 @@ export const openMenu = (state, ref) => {
   }
 
 export const block = {
-    id: uuidv4(),
+list:[ {   id: uuidv4(),
     modify: false,
     content:{
         title:"Prepárate para un día sin dudas" ,
         text: "Empieza rellenando uno de los bloques con una frase motivadora corta y una pequeña explicación si es necesario",     
-    }
+    }}]
 
 }
 export const viewPage = {
@@ -22,7 +22,6 @@ export const viewPage = {
     backgroundUrl: "https://img.freepik.com/foto-gratis/piedras-zen-apiladas-fondo-arena-arte-concepto-equilibrio_53876-110629.jpg?w=2000&t=st=1681492270~exp=1681492870~hmac=e8d33f5a3bf9956b1f31feee587cea5d9ffe9c65b36fd48f3a9b3eab69d8bf4b",
     blocks: [
         block,
-
     ]
 }
 

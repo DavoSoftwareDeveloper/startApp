@@ -5,17 +5,24 @@ import { addBlock, deleteBlock } from "../redux/stateSlice"
 import { v4 as uuidv4 } from 'uuid';
 import {MdFormatQuote} from 'react-icons/md'
 
-function Block({viewId,id, modify, content, positionPage}) {
+function Block({viewId,id, modify, content, positionBlock, positionPage, setDragged}) {
     
     const dispatch = useDispatch()
 
     const HandleDragStart = () =>{
         console.log("dragging")
+        setDragged({
+            id,
+            modify,
+            content,
+            positionBlock,
+            position:positionPage
+        })
     }
     const handleDeleteBlock = () => {
         dispatch(deleteBlock({id, viewId, positionPage}))
     }
-
+console.log(id)
   return (
     <div className="block-component">
         <div draggable onDragStart={HandleDragStart} className="block">

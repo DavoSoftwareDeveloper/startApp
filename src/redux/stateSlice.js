@@ -35,16 +35,20 @@ export const stateSlice = createSlice({
         const position = action.payload.position
         state.collection[0].views[position].title.title = ""
     },
+    addBlocks: (state,action) => {
+        const position = action.payload.position
+        state.collection[0].views[position].blocks = action.payload.stateClone
+    },
     addBlock: (state,action) => {
-        state.collection[0].views[action.payload.position].blocks.push(action.payload)
+        console.log(state.collection[0].views[action.payload.list[0].position])
+        state.collection[0].views[action.payload.list[0].position].blocks.push(action.payload)
     },
     deleteBlock: (state, action) => {
         const viewId = action.payload.viewId
         const id = action.payload.id
         const position = action.payload.positionPage
         console.log(id)
-        state.collection[0].views[position].blocks = state.collection[0].views[position].blocks.filter(item => item.id !== id)
-  
+        state.collection[0].views[position].blocks = state.collection[0].views[position].blocks.filter(item => item.list[0].id !== id)
     },
     updateBlock: (state,action) => {
         const item = state.collection.views.filter(item => item._id === action.payload._id)
@@ -61,6 +65,7 @@ export const {
                 addTitlePage,
                 deleteTitlePage,
                 deleteViewPage, 
+                addBlocks,
                 addBlock, 
                 deleteBlock, 
                 updateBlock 

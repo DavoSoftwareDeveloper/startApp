@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Block from './Block'
 import List from './List'
 import { v4 as uuidv4 } from 'uuid';
-import { addBlock, addTitlePage, deleteTitlePage } from '../redux/stateSlice'
+import { addBlock, addBlocks, addTitlePage, addViewPage, deleteTitlePage } from '../redux/stateSlice'
 
 
 function PageView({title, image, id, position}) {
@@ -19,6 +19,8 @@ function PageView({title, image, id, position}) {
     console.log(id)
 
     const viewData = useSelector(state => state.state.collection[0].views[position].blocks)
+    const viewPages = useSelector(state => state.state.collection[0].views)
+
     const [titleInput, setTitleInput] = useState("")
     const [dragged, setDragged] = useState(null)
     const [toggleMenu, setToggleMenu] = useState(false)
@@ -61,36 +63,42 @@ function PageView({title, image, id, position}) {
                     case "text":
                         console.log ( "add text block")
                         return dispatch(addBlock({
-                            position: position,
+                            list:[
+                                {position: position,
                             id: uuidv4(),
                             modify: false,
                             content:{
                                 title:"Bienvenido" ,
                                 text: "Empieza rellenando uno de los bloques con una frase motivadora corta y una pequeña explicación si es necesario",   
                             }
-                        }))
+                        }]}))
                         break;
                     case "quote":
                         return dispatch(addBlock({
-                            position: position,
+                            list:[
+                                {position: position,
                             id: uuidv4(),
                             modify: false,
                             content:{
                                 text: "Empieza rellenando uno de los bloques con una frase motivadora corta y una pequeña explicación si es necesario",
                                 author: "David Larrosa",
                             }
-                        }))
+                        }] }))
                         break;
                     case "task":
                         return dispatch(addBlock({
-                            position: position,
-                            id: uuidv4(),
-                            modify: false,
-                            content:{
-                                task:"First task",
-                                complete: false,        
+                          list:[
+                            {
+                                position: position,
+                                id: uuidv4(),
+                                modify: false,
+                                content:{
+                                    task:"First task",
+                                    complete: false,        
+                                }
+                            }]
                             }
-                        }))
+                          ))
                         break;        
                 }
     }
@@ -112,7 +120,42 @@ function PageView({title, image, id, position}) {
     const handleChange = (e) => {
         setTitleInput(e.target.value)
     }
-    console.log(titleInput)
+    
+    const handleDrop = (e) => {
+        e.preventDefault()
+
+        console.log(dragged)
+        console.log(position)
+
+        let origen = dragged.positionBlock // posición del bloque que se mueve
+        const destino = +e.currentTarget.dataset.list // posición de la lista donde cae
+        console.log(origen, destino)
+
+        const stateClone = structuredClone(viewPages[position].blocks)
+        console.log(stateClone)
+
+        stateClone[origen].list[0] = []
+
+        while (origen < destino){
+            origen++
+            console.log(stateClone[origen].list[0])
+            stateClone[origen-1].list[0] = stateClone[origen].list[0]
+            stateClone[origen].list[0] = []
+            
+        }
+        while (origen > destino){  
+            origen--         
+            console.log(stateClone[origen].list[0])
+            stateClone[origen+1].list[0] = stateClone[origen].list[0] 
+            stateClone[origen].list[0] = []
+            
+        }
+        stateClone[origen].list[0] = dragged
+        console.log(stateClone)
+        origen = dragged.positionBlock 
+        console.log(origen)
+        dispatch(addBlocks({stateClone, origen, position}))
+    }
 
 return (
     <div className="PageView">
@@ -134,14 +177,14 @@ return (
             </div>
         ) : (
             <div className='flex-title'>
-            <input autofocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
+            <input autoFocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
         </div>
         )
         }
         <div className='trello'>
         {viewData.map((item,index) => (
-            <List key={`list-${index}`}>
-                <Block viewId={id} positionPage={position} {...item} key={`block-${index}`}/>
+            <List positionPage={position} positionList={index} handleDrop={handleDrop} key={`list-${index}`}>
+                <Block positionPage={position} setDragged={setDragged} viewId={id} positionBlock={index} content={item.list[0].content} id={item.list[0].id} key={`block-${index}`}/>
             </List>
         ))}
         </div>

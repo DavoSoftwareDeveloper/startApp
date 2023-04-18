@@ -18,16 +18,18 @@ export const stateSlice = createSlice({
         state.collection.push(set)
     },
     deleteSet: (state, action) => {
-        state.collection.filter(item => item._id === action.payload._id)
+        state.collection.filter(item => item._id !== action.payload._id)
     },
     addViewPage: (state,action) => {
-        state.collection[0].views.push(action.payload)
+        if ( state.collection[0].views.length < 6){
+            state.collection[0].views.push(action.payload)
+        } else return
     },
     deleteViewPage: (state, action) => {
-        state.collection.views.filter(item => item.id === action.payload.id)
+        state.collection[0].views = state.collection[0].views.filter(item => item.id !== action.payload.id)
+        action.payload.setCurrentSlide("0")
     },
     addTitlePage: (state,action) => {
-        console.log(action.payload)
         const position = action.payload.position
         state.collection[0].views[position].title = action.payload
     },
@@ -40,19 +42,15 @@ export const stateSlice = createSlice({
         state.collection[0].views[position].blocks = action.payload.stateClone
     },
     addBlock: (state,action) => {
-        console.log(state.collection[0].views[action.payload.list[0].position])
         state.collection[0].views[action.payload.list[0].position].blocks.push(action.payload)
     },
     deleteBlock: (state, action) => {
-        const viewId = action.payload.viewId
         const id = action.payload.id
         const position = action.payload.positionPage
-        console.log(id)
         state.collection[0].views[position].blocks = state.collection[0].views[position].blocks.filter(item => item.list[0].id !== id)
     },
     updateBlock: (state,action) => {
         const item = state.collection.views.filter(item => item._id === action.payload._id)
-        console.log(item)
     },
     }
   },

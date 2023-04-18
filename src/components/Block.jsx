@@ -10,7 +10,6 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
     const dispatch = useDispatch()
 
     const HandleDragStart = () =>{
-        console.log("dragging")
         setDragged({
             id,
             modify,
@@ -22,7 +21,7 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
     const handleDeleteBlock = () => {
         dispatch(deleteBlock({id, viewId, positionPage}))
     }
-console.log(id)
+
   return (
     <div className="block-component">
         <div draggable onDragStart={HandleDragStart} className="block">

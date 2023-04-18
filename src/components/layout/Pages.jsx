@@ -4,7 +4,6 @@ import { Menu, Sets } from "../layout"
 import {IoMdAdd} from 'react-icons/io'
 import {ImMenu} from 'react-icons/im'
 import { useRef, useState } from 'react'
-import { openMenu } from '../../utils/functions'
 import { useDispatch, useSelector } from 'react-redux'
 import { addViewPage } from '../../redux/stateSlice'
 import { v4 as uuidv4 } from 'uuid';
@@ -24,14 +23,12 @@ function Pages() {
     toggleMenu ? ref.current.className = "menu2" : ref.current.className = "menu"
   }
 
-
 const changeSlide = (e) =>{
   e.preventDefault()
   setCurrentSlide(e.currentTarget.dataset.page)
 }
 
 const handleAddView = () => {
-  console.log("addView")
    dispatch(addViewPage({
     id: uuidv4(),
     title: "Título de prueba2",
@@ -47,7 +44,7 @@ const handleAddView = () => {
       <div className="container-pages">
       <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide"> 
         {viewData.map((item,index) => (
-          <PageView key={index} {...item} position={index} id={uuidv4()} image={item.backgroundUrl} title={item.title}/>
+          <PageView setCurrentSlide={setCurrentSlide} key={index} {...item} position={index} image={item.backgroundUrl} title={item.title}/>
         ))}
       </div>
       </div>

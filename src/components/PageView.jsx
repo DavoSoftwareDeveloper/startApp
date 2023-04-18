@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Block from './Block'
 import List from './List'
 import { v4 as uuidv4 } from 'uuid';
-import { addBlock, addBlocks, addTitlePage, addViewPage, deleteTitlePage } from '../redux/stateSlice'
+import { addBlock, addBlocks, addTitlePage, addViewPage, deleteTitlePage, deleteViewPage } from '../redux/stateSlice'
 
 
-function PageView({title, image, id, position}) {
+function PageView({title, image, id, position, setCurrentSlide}) {
     const dispatch = useDispatch()
 
     console.log(id)
@@ -38,13 +38,11 @@ function PageView({title, image, id, position}) {
         e.preventDefault()
         setToggleMenu(toggle => !toggle)
         let blockType = e.target.dataset.name
-        console.log(blockType)
                 // he tenido que añadir propiedad de css para que funcione bien con svg's
                 //solo con dataset ( data-whatever) he podido acceder a la propiedad aunque haga refresh
-                //switch
                 switch(blockType) {
                     case "delete":
-                        return console.log ( "delete page")
+                        return dispatch(deleteViewPage({position, id, setCurrentSlide}))
                         break;
                     case "audio":
                       return console.log ( "add audio set")
@@ -61,7 +59,6 @@ function PageView({title, image, id, position}) {
                         }))
                         break;
                     case "text":
-                        console.log ( "add text block")
                         return dispatch(addBlock({
                             list:[
                                 {position: position,
@@ -123,52 +120,51 @@ function PageView({title, image, id, position}) {
     
     const handleDrop = (e) => {
         e.preventDefault()
-
-        console.log(dragged)
-        console.log(position)
-
         let origen = dragged.positionBlock // posición del bloque que se mueve
         const destino = +e.currentTarget.dataset.list // posición de la lista donde cae
-        console.log(origen, destino)
 
         const stateClone = structuredClone(viewPages[position].blocks)
-        console.log(stateClone)
 
         stateClone[origen].list[0] = []
-
         while (origen < destino){
             origen++
-            console.log(stateClone[origen].list[0])
             stateClone[origen-1].list[0] = stateClone[origen].list[0]
             stateClone[origen].list[0] = []
-            
         }
         while (origen > destino){  
             origen--         
-            console.log(stateClone[origen].list[0])
             stateClone[origen+1].list[0] = stateClone[origen].list[0] 
-            stateClone[origen].list[0] = []
-            
+            stateClone[origen].list[0] = []   
         }
         stateClone[origen].list[0] = dragged
-        console.log(stateClone)
         origen = dragged.positionBlock 
-        console.log(origen)
         dispatch(addBlocks({stateClone, origen, position}))
     }
+    const onKeyUpevent = (e) => {
+        let keycode = e.keyCode;
+        if(keycode == '13'){
+            e.preventDefault()
+            dispatch(addTitlePage({
+                title: titleInput,
+                position: position,
+                modify:false,
+            }))
+        }
+      }
 
 return (
     <div className="PageView">
         <img src={image} alt="fondo" className='fondo'/>
         <div ref={ref} name="current" className="navbar">
             <IoMdAdd className='button-nav' onClick={handleMenu}/>
-            <AiOutlineClose data-name="delete" onClick={handleAdd}/>
-            <MdAudiotrack data-name="audio" onClick={handleAdd}/>
-            <MdOutlineAddPhotoAlternate data-name="photo" onClick={handleAdd}/>
-            <CgFormatText data-name="title" onClick={handleAdd}/>
-            <BsCardText data-name="text" onClick={handleAdd}/>
-            <MdFormatQuote data-name="quote" onClick={handleAdd}/>
-            <MdAddTask data-name="task" onClick={handleAdd}/>
+            <AiOutlineClose className="nav-item" data-name="delete" onClick={handleAdd}/>
+            <MdAudiotrack className="nav-item" data-name="audio" onClick={handleAdd}/>
+            <MdOutlineAddPhotoAlternate className="nav-item" data-name="photo" onClick={handleAdd}/>
+            <CgFormatText className="nav-item" data-name="title" onClick={handleAdd}/>  
+            {"||"}
+            <BsCardText className="nav-item" data-name="text" onClick={handleAdd}/>
+            <MdFormatQuote className="nav-item" data-name="quote" onClick={handleAdd}/>
+            <MdAddTask className="nav-item" data-name="task" onClick={handleAdd}/>
         </div>
         { !title.modify ? (
             <div className='flex-title'>
@@ -177,7 +173,7 @@ return (
             </div>
         ) : (
             <div className='flex-title'>
-            <input autoFocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
+            <input onKeyUp={onKeyUpevent} autoFocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
         </div>
         )
         }

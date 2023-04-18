@@ -27,7 +27,7 @@ svg {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:10px;
+    gap:7px;
     margin-right: 10%;
     margin-left: 10%;
     color:white;
@@ -35,6 +35,10 @@ svg {
     left: 74vw;
     transition: left 0.5s;
     z-index:2;
+    cursor:pointer;
+  }
+  .nav-item:hover{
+    scale: 1.5;
   }
   
   .navbar2{

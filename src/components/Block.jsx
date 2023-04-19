@@ -44,8 +44,9 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
             )}
                 {content.task && (
                 <div className="flexspace">
-                <p>{content.task}</p>
-                <p className={content.complete ? "true" : "false"}>{content.complete ? "true" : "false"}</p>
+                    <p>{content.task}</p>
+                    <input name="check" id={uuidv4()} className="check" type="checkbox"/>
+
                 </div>
             )}
           </div>

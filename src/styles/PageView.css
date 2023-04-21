@@ -30,12 +30,15 @@ svg {
     gap:7px;
     margin-right: 10%;
     margin-left: 10%;
-    color:white;
+    color:gray;
     position: relative;
     left: 74vw;
     transition: left 0.5s;
     z-index:2;
     cursor:pointer;
+  }
+  .nav-item{
+    color:white;
   }
   .nav-item:hover{
     scale: 1.5;
@@ -48,6 +51,7 @@ svg {
   font-size: x-large;
   box-shadow: -1px -1px;
   z-index:2;
+  color:white;
 }
 .button-nav:hover{
   scale: 1.1;
@@ -60,6 +64,12 @@ svg {
   display: flex;
   justify-content: center;
 }
+.flex-title2{
+  display: flex;
+  justify-content: center;
+  position:relative;
+  left:60px;
+}
 
 .title-close{
   position: absolute;
@@ -69,7 +79,9 @@ svg {
   height: 60px;
   opacity: 0;
   cursor:pointer;
+  left: 60px;
 }
+
 .title-close:hover{
   opacity: 1;
 }

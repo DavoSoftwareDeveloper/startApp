@@ -6,7 +6,8 @@ export const openMenu = (state, ref) => {
   }
 
 export const block = {
-list:[ {   id: uuidv4(),
+list:[ {   
+    id: uuidv4(),
     modify: false,
     content:{
         title:"Prepárate para un día sin dudas" ,

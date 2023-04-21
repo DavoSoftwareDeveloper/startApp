@@ -1,13 +1,97 @@
 import "../styles/Block.css"
 import {AiFillEdit, AiOutlineClose} from "react-icons/ai"
 import { useDispatch } from "react-redux"
-import { addBlock, deleteBlock } from "../redux/stateSlice"
+import { addTextBlock, addTitleBlock, deleteBlock, updateBlock, addAuthorBlock, addAuthorTitleBlock, addTaskBlock } from "../redux/stateSlice"
 import { v4 as uuidv4 } from 'uuid';
 import {MdFormatQuote} from 'react-icons/md'
+import $ from "jquery";
+import { useEffect, useRef, useState } from "react";
 
 function Block({viewId,id, modify, content, positionBlock, positionPage, setDragged}) {
+    const ref = useRef()
+    const [titleInput, setTitleInput] = useState("")
+    const [textInput, setTextInput] = useState("")
+    const [author, setAuthor] = useState("")
+    const [authorTitle, setAuthorTitle] = useState("")
+    const [task, setTask] = useState("")
+    
+    const [selectedDiv, setSelectedDiv] = useState(null)
     
     const dispatch = useDispatch()
+    
+    useEffect(()=>{
+        console.log("se ha tocado div")
+    },[selectedDiv])
+    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        switch(e.target.name){
+            case "title-input":
+                return dispatch(addTitleBlock({
+                            positionBlock,
+                            positionPage,
+                            modify:false,
+                            id,
+                            newTitle: titleInput,
+                        }))
+                break;
+            case "text-input":
+                return dispatch(addTextBlock({
+                            positionBlock,
+                            positionPage,
+                            modify:false,
+                            id,
+                            newText: textInput,
+                        }))
+                break;
+                case "author-input":
+                    return dispatch(addAuthorBlock({
+                                positionBlock,
+                                positionPage,
+                                modify:false,
+                                id,
+                                newAuthor: author,
+                            }))
+                    break;
+                case "author-title-input":
+                    return dispatch(addAuthorTitleBlock({
+                                positionBlock,
+                                positionPage,
+                                modify:false,
+                                id,
+                                newTitleAuthor: authorTitle,
+                            }))
+                    break;
+                case "task-input":
+                    return dispatch(addTaskBlock({
+                                positionBlock,
+                                positionPage,
+                                modify:false,
+                                id,
+                                newTask: task,
+                            }))
+                    break;    
+        }
+    }
+    const handleChange = (e) => {
+        switch(e.target.name){
+            case "title-input":
+                return setTitleInput(e.target.value)
+                break;
+            case "text-input":
+                return setTextInput(e.target.value)
+                break;
+            case "author-title-input":
+                return setAuthorTitle(e.target.value)
+                break;
+            case "author-input":
+                return setAuthor(e.target.value)
+                break;    
+            case "task-input":
+                return setTask(e.target.value)
+                break;        
+        }
+    }
 
     const HandleDragStart = () =>{
         setDragged({
@@ -18,61 +102,119 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
             position:positionPage
         })
     }
+
+    const handleUpdateBlock = () => {
+        dispatch(updateBlock({id, viewId, positionPage, positionBlock}))
+    }
+    
     const handleDeleteBlock = () => {
         dispatch(deleteBlock({id, viewId, positionPage}))
     }
 
-  return (
-    <div className="block-component">
+    const handleVisibility = (e) => {
+        e.preventDefault()
+        setSelectedDiv(e.currentTarget.dataset.id)
+        let count = false
+        console.log(ref.current.dataset.id)
+
+            console.log("hello")
+            $('[data-id = selectedDiv]').hover(function(){
+                count = !count
+                if (count){
+                    $('.options-edit').css({
+                        "visibility": "visible"
+                    });
+                } else {
+                    $('.options-edit').css({
+                        "visibility": "hidden"
+                    });
+                }
+            });
+    
+    }
+    console.log(ref.current && ref.current.dataset.id)
+    console.log(selectedDiv)
+return (
+    <div name="id" ref={ref} data-id={id} onMouseEnter={handleVisibility} className="block-component">
         <div draggable onDragStart={HandleDragStart} className="block">
-          <div className="content">
-          {content.title && (
-                <div>
-                <h4>{content.title}</h4>
-                <p>{content.text}</p>
+            <div className="content">
+            {content.title && (
+                <div className={modify ? "flex-title2" : "flex-title"}>
+                {!modify ? (
+                <>
+                    <h4>{content.title}</h4>
+                    <p>{content.text}</p>
+                </>
+                ) : (
+                <>
+                    <input name="title-input" placeholder={content.title} className="title-input" onChange={handleChange} onBlur={handleSubmit} type="text" />
+                    <input name="text-input" placeholder={content.text} className="title-input" onChange={handleChange} onBlur={handleSubmit} type="text" />
+                    <br/>
+                </>
+                )}
                 </div>
             )}
-              {content.author && (
-                <>
-                <div className="flex">
-                <MdFormatQuote/>
-                <p>{content.text}</p>
-                <MdFormatQuote/>
+            {content.author && (
+                <div>
+                    {!modify ? (
+                        <>
+                        <div className="flex2">
+                            <MdFormatQuote className="quote"/>
+                            <p>{content.text}</p>
+                            <MdFormatQuote className="quote"/>
+                        </div>
+                        <p style={{fontSize:"14px", marginTop:"-5px"}}>by {content.author}</p>
+                        </>
+                        ) : (
+                        <>
+                        <div className="flex-title2">
+                            <input name="author-title-input" placeholder={content.text} className="title-input" onChange={handleChange} onBlur={handleSubmit} type="text" />
+                            <input name="author-input" placeholder={content.author} className="title-input" onChange={handleChange} onBlur={handleSubmit} type="text" />
+                            <br/>
+                        </div>
+                        </>
+                        )}
                 </div>
-                <p style={{fontSize:"14px", marginTop:"-5px"}}>by {content.author}</p>
-                </>
             )}
                 {content.task && (
                 <div className="flexspace">
-                    <p>{content.task}</p>
-                    <input name="check" id={uuidv4()} className="check" type="checkbox"/>
-
+                    {!modify ? (
+                        <>
+                            <p>{content.task}</p>
+                            <input name="check" id={uuidv4()} className="check" type="checkbox"/>
+                        </>
+                        ):(
+                        <>
+                            <input autoFocus name="task-input" placeholder={content.text} className="title-input" onChange={handleChange} onBlur={handleSubmit} type="text" />
+                        </>)}
                 </div>
             )}
-          </div>
+            </div>
         </div>
+        <div className="blur"></div>
+            <div className="options-edit">
         {content.task ? (
-           <div className="container-edit-task">
-           <div className="edit-button-task">
-               < AiOutlineClose className="icon-task" onClick={handleDeleteBlock}/>
-           </div>
-           <div className="edit-button-task">
-               < AiFillEdit className="icon-task"/>
-           </div>
-       </div>  
+            <div className="container-edit-task">
+                <div className="edit-button-task">
+                    < AiOutlineClose className="icon-task" onClick={handleDeleteBlock}/>
+                </div>
+                <div className="edit-button-task">
+                    < AiFillEdit className="icon-task" onClick={handleUpdateBlock}/>
+                </div>
+            </div>  
         ) : (
             <div className="container-edit">
-            <div className="edit-button">
-                < AiOutlineClose className="icon" onClick={handleDeleteBlock}/>
+                <div className="edit-button">
+                    < AiOutlineClose className="icon" onClick={handleDeleteBlock}/>
+                </div>
+                <div className="edit-button">
+                    < AiFillEdit className="icon" onClick={handleUpdateBlock}/>
+                </div>
             </div>
-            <div className="edit-button">
-                < AiFillEdit className="icon"/>
-            </div>
+            )}
         </div>
-        )}
- 
     </div>
-  )
+    )
 }
 
 export default Block

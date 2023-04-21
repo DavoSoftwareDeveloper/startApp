@@ -16,8 +16,6 @@ import { addBlock, addBlocks, addTitlePage, addViewPage, deleteTitlePage, delete
 function PageView({title, image, id, position, setCurrentSlide}) {
     const dispatch = useDispatch()
 
-    console.log(id)
-
     const viewData = useSelector(state => state.state.collection[0].views[position].blocks)
     const viewPages = useSelector(state => state.state.collection[0].views)
 
@@ -100,7 +98,6 @@ function PageView({title, image, id, position, setCurrentSlide}) {
                 }
     }
 
-    console.log(viewData)
     const deleteTitle = (e) => {
        return dispatch(deleteTitlePage({position}))
     }
@@ -172,7 +169,7 @@ return (
                     { title.title && <div className='title-close'><AiOutlineClose className="close" onClick={deleteTitle}/></div>}
             </div>
         ) : (
-            <div className='flex-title'>
+            <div className='flex-title2'>
             <input onKeyUp={onKeyUpevent} autoFocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
         </div>
         )
@@ -180,7 +177,7 @@ return (
         <div className='trello'>
         {viewData.map((item,index) => (
             <List positionPage={position} positionList={index} handleDrop={handleDrop} key={`list-${index}`}>
-                <Block positionPage={position} setDragged={setDragged} viewId={id} positionBlock={index} content={item.list[0].content} id={item.list[0].id} key={`block-${index}`}/>
+                <Block positionPage={position} setDragged={setDragged} viewId={id} positionBlock={index} modify={item.list[0].modify} content={item.list[0].content} id={item?.list[0].id} key={`block-${index}`}/>
             </List>
         ))}
         </div>

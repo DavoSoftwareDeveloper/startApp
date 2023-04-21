@@ -39,10 +39,10 @@ const handleAddView = () => {
     ]
 }))
 }
-  return (
+  return ( 
     <div className="pages">
-      <div className="container-pages">
-      <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide"> 
+      <div className="container-pages" >
+      <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide" > 
         {viewData.map((item,index) => (
           <PageView setCurrentSlide={setCurrentSlide} key={index} {...item} position={index} image={item.backgroundUrl} title={item.title}/>
         ))}

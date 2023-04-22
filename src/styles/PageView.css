@@ -60,6 +60,12 @@ svg {
   height: 70%;
   overflow-y: scroll;
 }
+.flex-titles{
+  display: flex;
+  justify-content: center;
+  position:relative;
+}
+
 .flex-title{
   display: flex;
   justify-content: center;

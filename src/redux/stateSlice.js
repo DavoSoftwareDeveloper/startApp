@@ -26,6 +26,8 @@ export const stateSlice = createSlice({
         } else return
     },
     deleteViewPage: (state, action) => {
+        if (state.collection[0].views.length === 1 ) return
+
         state.collection[0].views = state.collection[0].views.filter(item => item.id !== action.payload.id)
         action.payload.setCurrentSlide(action.payload.position -1)
     },

@@ -169,7 +169,7 @@ return (
                     { title.title && <div className='title-close'><AiOutlineClose className="close" onClick={deleteTitle}/></div>}
             </div>
         ) : (
-            <div className='flex-title2'>
+            <div className='flex-titles'>
             <input onKeyUp={onKeyUpevent} autoFocus onChange={handleChange} onBlur={handleSubmit} type="text" className='title-input' placeholder={title.title}/>
         </div>
         )

@@ -27,7 +27,7 @@ export const stateSlice = createSlice({
     },
     deleteViewPage: (state, action) => {
         state.collection[0].views = state.collection[0].views.filter(item => item.id !== action.payload.id)
-        action.payload.setCurrentSlide("0")
+        action.payload.setCurrentSlide(action.payload.position -1)
     },
     addTitlePage: (state,action) => {
         const position = action.payload.position

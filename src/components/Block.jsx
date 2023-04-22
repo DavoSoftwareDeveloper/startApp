@@ -15,13 +15,9 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
     const [authorTitle, setAuthorTitle] = useState("")
     const [task, setTask] = useState("")
     
-    const [selectedDiv, setSelectedDiv] = useState(null)
     
     const dispatch = useDispatch()
     
-    useEffect(()=>{
-        console.log("se ha tocado div")
-    },[selectedDiv])
     
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -113,27 +109,25 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
 
     const handleVisibility = (e) => {
         e.preventDefault()
-        setSelectedDiv(e.currentTarget.dataset.id)
+        let selectedDiv = e.currentTarget.dataset.id
+        console.log(selectedDiv)
         let count = false
-        console.log(ref.current.dataset.id)
-
-            console.log("hello")
-            $('[data-id = selectedDiv]').hover(function(){
+            $('.block-component').hover(function(){
                 count = !count
                 if (count){
-                    $('.options-edit').css({
+                    $('[data-show = ' + selectedDiv + ']').css({
                         "visibility": "visible"
                     });
                 } else {
-                    $('.options-edit').css({
+                    $('[data-show = ' + selectedDiv + ']').css({
                         "visibility": "hidden"
                     });
+                    selectedDiv = null
                 }
             });
     
     }
-    console.log(ref.current && ref.current.dataset.id)
-    console.log(selectedDiv)
+
 return (
     <div name="id" ref={ref} data-id={id} onMouseEnter={handleVisibility} className="block-component">
         <div draggable onDragStart={HandleDragStart} className="block">
@@ -192,7 +186,7 @@ return (
             </div>
         </div>
         <div className="blur"></div>
-            <div className="options-edit">
+            <div data-show={id} className="options-edit">
         {content.task ? (
             <div className="container-edit-task">
                 <div className="edit-button-task">

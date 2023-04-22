@@ -3,6 +3,7 @@ import PageView from "../PageView"
 import { Menu, Sets } from "../layout"
 import {IoMdAdd} from 'react-icons/io'
 import {ImMenu} from 'react-icons/im'
+import {BsChevronCompactRight,BsChevronCompactLeft} from 'react-icons/bs'
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addViewPage } from '../../redux/stateSlice'
@@ -39,8 +40,29 @@ const handleAddView = () => {
     ]
 }))
 }
+
+
+const pageChange = (e) => {
+  e.preventDefault()
+  let direction = e.currentTarget.dataset.direction
+  if ( direction === "left"){
+    setCurrentSlide(currentSlide === 0 ? (prev) => prev : (prev) => prev -1)
+  }
+  else if ( direction === "right"){
+    setCurrentSlide(currentSlide === viewData.length -1 ? (prev) => prev : (prev) => prev +1)
+  }
+}
+
   return ( 
     <div className="pages">
+      <div className='flex-container'>
+          <div data-direction="left" className="nextLeft" onClick={pageChange}>
+            <BsChevronCompactLeft className='paginacion'/>
+          </div>
+          <div data-direction="right" className="nextRight" onClick={pageChange}>
+            <BsChevronCompactRight className='paginacion'/>
+          </div>
+      </div>
       <div className="container-pages" >
       <div style={{transform:`translateX(-${currentSlide * 100}vw)`}} className="container-slide" > 
         {viewData.map((item,index) => (
@@ -59,7 +81,7 @@ const handleAddView = () => {
                 ))}
               </div>
               <div className="plus">
-                <IoMdAdd onClick={handleAddView}/>
+                <IoMdAdd className="plus-sign" onClick={handleAddView}/>
               </div>
           </div>
           <Sets />

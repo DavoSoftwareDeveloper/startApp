@@ -34,11 +34,11 @@ font-size:xx-large;
   display: flex;
   flex-direction: column;
   gap:10px;
-  justify-content: center;
 }
 
 .flex-title2{
   top:13px;
+  left: 10px;
 }
 
 .block {
@@ -68,7 +68,7 @@ font-size:xx-large;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  z-index: 5002;
+  z-index: 5005;
 }
 
 .edit-button {
@@ -128,6 +128,7 @@ h4 {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  z-index: 5005;
 }
 
 .edit-button-task {
@@ -139,6 +140,7 @@ h4 {
   border-radius: 50%;
   cursor: pointer;
   background-color: rgb(202, 187, 168);
+  z-index: 5005;
 }
 
 

@@ -99,11 +99,13 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
         })
     }
 
-    const handleUpdateBlock = () => {
+    const handleUpdateBlock = (e) => {
+        e.preventDefault()
         dispatch(updateBlock({id, viewId, positionPage, positionBlock}))
     }
     
-    const handleDeleteBlock = () => {
+    const handleDeleteBlock = (e) => {
+        e.preventDefault()
         dispatch(deleteBlock({id, viewId, positionPage}))
     }
 

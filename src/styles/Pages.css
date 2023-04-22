@@ -14,9 +14,38 @@
     display: flex;
     width:600vw;
     height: auto;
+    transition: transform 0.5s;
+  }
+  .flex-container{
+    position: absolute;
+    width: 100vw;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
   }
 
-  
+  .nextLeft, .nextRight {
+    padding: 2px;
+    width: 25px;
+    height: 500px;
+    position:relative;
+    z-index:5000;
+    top:150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    opacity: 0;
+    overflow: hidden;
+  }
+  .nextLeft:hover, .nextRight:hover{
+    opacity: 1;
+  }
+  .paginacion{
+    scale: 4;
+    z-index:5000;
+  }
+
   .botonera{
     width: 100vw;
     position: absolute;
@@ -47,15 +76,20 @@
     border:1px solid black;
   }
   .plus{
-    width: 10px;
+    position: relative;
+    width: 12px;
     height: 10px;
     color: white;
     cursor:pointer;
     scale: 1.4;
-    padding-bottom: 20px;
   }
   .plus:hover{
     scale:1.5;
+  }
+  .plus-sign{
+    position: relative;
+    top:-3px;
+    left:-2px;    
   }
 
   .menu{

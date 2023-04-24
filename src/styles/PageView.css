@@ -32,7 +32,7 @@ svg {
     margin-left: 10%;
     color:gray;
     position: relative;
-    left: 74vw;
+    left: 78vw;
     transition: left 0.5s;
     z-index:2;
     cursor:pointer;
@@ -45,7 +45,7 @@ svg {
   }
   
   .navbar2{
-    left: 12vw;
+    left: 8vw;
   }
 
 .button-nav{
@@ -102,4 +102,52 @@ svg {
 .close{
   width: 20px;
   height: 20px;
+}
+
+@media screen and (min-width: 430px){
+  .navbar, .navbar2{
+    scale:1.5;
+    margin-top:6%;
+    width: 75%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:7px;
+    margin-right: 10%;
+    margin-left: 10%;
+    color:gray;
+    position: relative;
+    left: 65vw;
+    transition: left 0.5s;
+    z-index:2;
+    cursor:pointer;
+  }
+  .navbar2{
+    left: 30vw;
+  }
+}
+
+@media screen and (min-width: 1000px){
+  .navbar, .navbar2{
+    scale:1.5;
+    margin-top:6%;
+    width: 75%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:7px;
+    margin-right: 10%;
+    margin-left: 10%;
+    color:gray;
+    position: relative;
+    left: 62vw;
+    transition: left 0.5s;
+    z-index:2;
+    cursor:pointer;
+  }
+  .navbar2{
+    left: 36vw;
+  }
 }

@@ -165,6 +165,7 @@ return (
         </div>
         { !title.modify ? (
             <div className='flex-title'>
+                    <div className="testbox"></div>
                     <h1 className='title'>{title.title}</h1>
                     { title.title && <div className='title-close'><AiOutlineClose className="close" onClick={deleteTitle}/></div>}
             </div>

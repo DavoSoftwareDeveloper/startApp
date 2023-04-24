@@ -3,7 +3,7 @@ import {AiFillEdit, AiOutlineClose} from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { addTextBlock, addTitleBlock, deleteBlock, updateBlock, addAuthorBlock, addAuthorTitleBlock, addTaskBlock } from "../redux/stateSlice"
 import { v4 as uuidv4 } from 'uuid';
-import {MdFormatQuote} from 'react-icons/md'
+import {MdFormatQuote, MdTimeline} from 'react-icons/md'
 import $ from "jquery";
 import { useEffect, useRef, useState } from "react";
 
@@ -106,6 +106,7 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
     
     const handleDeleteBlock = (e) => {
         e.preventDefault()
+        let selectedDiv = e.currentTarget.dataset.id
         dispatch(deleteBlock({id, viewId, positionPage}))
     }
 
@@ -129,6 +130,7 @@ function Block({viewId,id, modify, content, positionBlock, positionPage, setDrag
             });
     
     }
+
 
 return (
     <div name="id" ref={ref} data-id={id} onMouseEnter={handleVisibility} className="block-component">

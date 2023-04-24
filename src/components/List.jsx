@@ -6,7 +6,7 @@ function List({children, handleDrop, positionPage, positionList}) {
     }
 
   return (
-    <div data-list={positionList} onDragOver={handleDragOver} onDrop={handleDrop}>
+    <div className="list" data-list={positionList} onDragOver={handleDragOver} onDrop={handleDrop}>
       {children}
     </div>
   )
